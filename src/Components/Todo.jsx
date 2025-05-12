@@ -1,53 +1,35 @@
-import React, { useState } from 'react';
-import Todoitems from './Todoitems'; // Assuming Todoitems is in the same directory
+import { useEffect, useRef, useState } from 'react';
+import './CSS/Todo.css';
+import Todoitems from './TodoItems';
+
+let count = 0;
 
 const Todo = () => {
-  const [todos, setTodos] = useState([
-    { no: 1, text: 'Sample task 1', display: 'incomplete' },
-    { no: 2, text: 'Sample task 2', display: 'incomplete' },
-  ]);
+  const [todos, setTodos] = useState([]);
+  const inputRef = useRef(null);
 
-  // Toggle task completion
-  const handleToggle = (no) => {
-    setTodos(prevTodos =>
-      prevTodos.map(todo =>
-        todo.no === no
-          ? { ...todo, display: todo.display === 'completed' ? 'incomplete' : 'completed' }
-          : todo
-      )
-    );
+  const add = () => {
+    if (inputRef.current.value.trim() !== "") {
+      setTodos([...todos, { no: count++, text: inputRef.current.value, display: "" }]);
+      inputRef.current.value = "";
+    }
   };
 
-  // Delete a task
-  const handleDelete = (no) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo.no !== no));
-  };
-
-  // Reset: Mark all tasks as incomplete
-  const handleReset = () => {
-    const updatedTodos = todos.map(todo => ({
-      ...todo,
-      display: 'incomplete',
-    }));
-    setTodos(updatedTodos);
-  };
+  useEffect(() => {
+    console.log(todos);
+  }, [todos]);
 
   return (
-    <div className="todo-container">
-      <button className="todo-reset-btn" onClick={handleReset}>
-        Reset All
-      </button>
-      <div className="todoitems-list">
-        {todos.map(todo => (
-          <Todoitems
-            key={todo.no}
-            no={todo.no}
-            display={todo.display}
-            text={todo.text}
-            onToggle={handleToggle}
-            onDelete={handleDelete}
-          />
-        ))}
+    <div className='todo'>
+      <div className="todo-header">To-Do List</div>
+      <div className="todo-add">
+        <input ref={inputRef} type='text' placeholder='Add Your Task' className='todo-input' />
+        <div className="todo-add-btn" onClick={add}>ADD</div>
+      </div>
+      <div className="todo-list">
+        {todos.map((item,index) => {
+          return <Todoitems key={index} no={item.no} display={item.display} text={item.text}/>
+        })}
       </div>
     </div>
   );

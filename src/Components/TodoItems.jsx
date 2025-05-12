@@ -1,8 +1,8 @@
 import React from 'react';
 import './CSS/Todoitems.css';
-import Tick from './Assets/Tick.png';
-import nottick from './Assets/nottick.png';
-import untick from './Assets/untick.png';
+import Tick from './Assets/tick.png';
+import nottick from './Assets/not_tick.png';
+import untick from './Assets/cross.png';
 
 const Todoitems = ({ no, display, text, onToggle, onDelete }) => {
   return (

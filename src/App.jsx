@@ -1,4 +1,4 @@
-import Todo from "./Components/todo";
+import Todo from "./Components/Todo";
 
 const App = () => {
   return (
